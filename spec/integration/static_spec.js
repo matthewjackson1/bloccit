@@ -20,9 +20,9 @@ describe("routes : static", () => {
 
     describe("GET /marco", () => {
     it("should return status code 200 and body should be 'Polo'", () => {
-      request.get(base+"marco", (err, res, body) => {
-        expect(res.statusCode).toBe(2200);
-        expect(body).toBe("Podiosfiolo");
+      request.get("http://localhost:3000/marco", (err, res, body) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toBe("polo");
         });
       });
 
