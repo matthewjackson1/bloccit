@@ -28,4 +28,15 @@ describe("routes : static", () => {
       });
 
     });
+
+describe("GET /about", () => {
+    it("should return 'About Us.'", () => {
+      request.get(base+"about", (err, res, body) => {
+        expect(body).toContain("About Us.");
+        });
+      });
+
+    });
+
+
   });
