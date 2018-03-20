@@ -9,6 +9,6 @@ const express = require("express");
   router.get("/advertisements/:id", advertisementController.show);
   router.post("/advertisements/:id/destroy", advertisementController.destroy);
   router.get("/advertisements/:id/edit", advertisementController.edit);
-  router.post("/advertisements/:id", advertisementController.update);
+  router.post("/advertisements/:id/update", advertisementController.update);
 
   module.exports = router;

@@ -140,7 +140,7 @@ describe("routes : topics", () => {
   describe("POST /topics/:id/destroy", () => {
 
      it("should return a status code 303", (done) => {
-       request.get(`${base}1/destroy`, (err, res, body) => {
+       request.post(`${base}1/destroy`, (err, res, body) => {
          expect(res.statusCode).toBe(303);
          done();
        });
@@ -193,7 +193,7 @@ describe("routes : topics", () => {
   describe("POST /topics/:id/update", () => {
 
      it("should return a status code 302", (done) => {
-       request.put({
+       request.post({
          url: `${base}1/update`,
          form: {
            title: "JavaScript Frameworks"

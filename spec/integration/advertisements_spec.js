@@ -70,6 +70,8 @@ describe("routes : advertisements", () => {
       });
     });
 
+  });
+
   describe("POST /advertisements/create", () => {
 
       it("should return a status code 303", (done) => {
@@ -84,8 +86,7 @@ describe("routes : advertisements", () => {
           (err, res, body) => {
             expect(res.statusCode).toBe(303);
             done();
-          };
-        );
+          });
       });
 
       it("should create a new advertisement and redirect", (done) => {
@@ -108,8 +109,7 @@ describe("routes : advertisements", () => {
               console.log(err);
               done();
             });
-          };
-        );
+          });
       });
 
     });
@@ -133,14 +133,13 @@ describe("routes : advertisements", () => {
 
    });
 
-  });
 
   describe("POST /advertisements/:id/destroy", () => {
 
      it("should return a status code 303", (done) => {
 
  //#1
-       request.get(`${base}1/destroy`, (err, res, body) => {
+       request.post(`${base}1/destroy`, (err, res, body) => {
          expect(res.statusCode).toBe(303);
          done();
        });
@@ -170,6 +169,7 @@ describe("routes : advertisements", () => {
        });
 
      });
+   });
 
      describe("GET /advertisements/:id/edit", () => {
 
@@ -191,12 +191,12 @@ describe("routes : advertisements", () => {
 
    });
 
-   });
+  
 
   describe("POST /advertisements/:id/update", () => {
 
      it("should return a status code 302", (done) => {
-       request.put({
+       request.post({
          url: `${base}1/update`,
          form: {
            title: "JavaScript Frameworks"
