@@ -5,12 +5,13 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const topicQueries = require("../../src/db/queries.topics.js");
 const Topic = require("../../src/db/models").Topic;
 
+
 describe("routes : topics", () => {
 
   beforeEach((done) => {
 
       const newTopic = {
-        title: "JS Frameworks",
+        title: "JavaScript Frameworks",
         description: "There is a lot of them"
       };
 
@@ -45,7 +46,7 @@ describe("routes : topics", () => {
         request.get(base, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Topics");
-          expect(body).toContain("JS Frameworks");
+          expect(body).toContain("JavaScript Frameworks");
           console.log("test 2");
           done();
         });
@@ -55,14 +56,15 @@ describe("routes : topics", () => {
 
   describe("GET /topics/new", () => {
 
-    it("should return a status code 200", (done) => {
+   it("should return a status code 200", (done) => {
       request.get(`${base}new`, (err, res, body) => {
         expect(res.statusCode).toBe(200);
         done();
       });
     });
 
-    it("should render a new topic form", (done) => {
+   
+   it("should render a new topic form", (done) => {
       request.get(`${base}new`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("New Topic");
@@ -70,7 +72,9 @@ describe("routes : topics", () => {
       });
     });
 
-  describe("POST /topics/create", () => {
+  });
+
+   describe("POST /topics/create", () => {
 
       it("should return a status code 303", (done) => {
         request.post(
@@ -84,8 +88,7 @@ describe("routes : topics", () => {
           (err, res, body) => {
             expect(res.statusCode).toBe(303);
             done();
-          };
-        );
+          });
       });
 
       it("should create a new topic and redirect", (done) => {
@@ -108,8 +111,7 @@ describe("routes : topics", () => {
               console.log(err);
               done();
             });
-          };
-        );
+          });
       });
 
     });
@@ -126,20 +128,18 @@ describe("routes : topics", () => {
      it("should render a view with the selected topic", (done) => {
        request.get(`${base}1`, (err, res, body) => {
          expect(err).toBeNull();
-         expect(body).toContain("JS Frameworks");
+         expect(body).toContain("JavaScript Frameworks");
          done();
        });
      });
 
    });
 
-  });
+  
 
   describe("POST /topics/:id/destroy", () => {
 
      it("should return a status code 303", (done) => {
-
- //#1
        request.get(`${base}1/destroy`, (err, res, body) => {
          expect(res.statusCode).toBe(303);
          done();
@@ -147,17 +147,12 @@ describe("routes : topics", () => {
      });
 
      it("should delete the topic with the associated ID", (done) => {
-
- //#2
        Topic.all()
        .then((topics) => {
 
- //#3
          const topicCountBeforeDelete = topics.length;
-
          expect(topicCountBeforeDelete).toBe(1);
 
- //#4
          request.post(`${base}1/destroy`, (err, res, body) => {
            Topic.all()
            .then((topics) => {
@@ -171,7 +166,9 @@ describe("routes : topics", () => {
 
      });
 
-     describe("GET /topics/:id/edit", () => {
+  });
+
+  describe("GET /topics/:id/edit", () => {
 
      it("should return a status code 200", (done) => {
        request.get(`${base}1/edit`, (err, res, body) => {
@@ -184,14 +181,14 @@ describe("routes : topics", () => {
        request.get(`${base}1/edit`, (err, res, body) => {
          expect(err).toBeNull();
          expect(body).toContain("Edit Topic");
-         expect(body).toContain("JS Frameworks");
+         expect(body).toContain("JavaScript Frameworks");
          done();
        });
      });
 
    });
 
-   });
+   
 
   describe("POST /topics/:id/update", () => {
 
@@ -209,7 +206,6 @@ describe("routes : topics", () => {
 
      it("should update the topic with the given values", (done) => {
 
-//#1
          request.post({
            url: `${base}1/update`,
            form: {
@@ -218,7 +214,6 @@ describe("routes : topics", () => {
          }, (err, res, body) => {
 
            expect(err).toBeNull();
-//#2
            Topic.findOne({
              where: {id:1}
            })
@@ -231,5 +226,7 @@ describe("routes : topics", () => {
 
    });
 
+});
 
- });
+
+ 
