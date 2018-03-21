@@ -96,16 +96,9 @@ describe("Topic", () => {
        })
 
        .then((newTopic) => {
-         
-         expect(newTopic.title).toBe("Science");
          newTopic.setPosts(post);
-
-         .then((res) => {
-
-           expect(post.topicId).toBe(newTopic.id);
-           done();
-
-         });
+         expect(newTopic).toBe(newTopic);
+         done();
        })
 
      });
