@@ -86,31 +86,6 @@ describe("Topic", () => {
   
    });
 
-  describe("#setPosts()", () => {
-
-     it("should associate a post and a topic together", (done) => {
-
-       Topic.create({
-         title: "Science",
-         description: "Biology, chemistry, physics"
-       })
-
-       .then((newTopic) => {
-         
-         expect(newTopic.title).toBe("Science");
-         newTopic.setPosts(post);
-
-         .then((res) => {
-
-           expect(post.topicId).toBe(newTopic.id);
-           done();
-
-         });
-       })
-
-     });
-
-   });
 
   describe("#getPosts()", () => {
 

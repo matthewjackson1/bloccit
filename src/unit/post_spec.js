@@ -40,6 +40,8 @@ describe("Post", () => {
     });
   });
 
+
+
   describe("#create()", () => {
 
      it("should create a post object with a title, body, and assigned topic", (done) => {
@@ -127,5 +129,6 @@ describe("Post", () => {
      });
 
    });
+   
 
 });

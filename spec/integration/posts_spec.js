@@ -1,10 +1,10 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
-
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+
 
 describe("routes : posts", () => {
 
@@ -14,7 +14,6 @@ describe("routes : posts", () => {
 
     sequelize.sync({force: true}).then((res) => {
 
-//#1
       Topic.create({
         title: "Winter Games",
         description: "Post your Winter Games stories."
@@ -40,7 +39,7 @@ describe("routes : posts", () => {
 
   });
 
-  describe("GET /topics/:topicId/posts", () => {/* suite implementation */});
+//  describe("GET /topics/:topicId/posts", () => {/* suite implementation */});
 
   describe("GET /topics/:topicId/posts/new", () => {
 
