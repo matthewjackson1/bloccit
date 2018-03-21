@@ -40,20 +40,20 @@ describe("Topic", () => {
     });
   });
 
-  describe("#create()", () => {
+ 
+ describe("#create()", () => {
 
-     it("should create a topic object with a title, body, and assigned post", (done) => {
+     it("should create a topic object with a title and description", (done) => {
 //#1
        Topic.create({
-         title: "Pros of Cryosleep during the long journey",
-         body: "1. Not having to answer the 'are we there yet?' question.",
-         //topicId: topic.id
+         title: "Space Travel",
+         description: "Everything to do with space travel",
        })
-       .then((post) => {
+       .then((topic) => {
 
 //#2
-         expect(topic.title).toBe("Pros of Cryosleep during the long journey");
-         expect(topic.body).toBe("1. Not having to answer the 'are we there yet?' question.");
+         expect(topic.title).toBe("Space Travel");
+         expect(topic.description).toBe("Everything to do with space travel");
          //expect(topic.postId).toBe(1);
          done();
 
@@ -63,13 +63,12 @@ describe("Topic", () => {
          done();
        });
      });
-
-     it("should not create a topic with missing title, body, or assigned post?", (done) => {
+     
+     it("should not create a topic with missing title or description", (done) => {
        Topic.create({
-         title: "Pros of Cryosleep during the long journey"
+         title: "Science"
        })
-       .then((post) => {
-
+       .then((topic) => {
         // the code in this block will not be evaluated since the validation error
         // will skip it. Instead, we'll catch the error in the catch block below
         // and set the expectations there
@@ -78,49 +77,48 @@ describe("Topic", () => {
 
        })
        .catch((err) => {
+         expect(err.message).toContain("Topic.description cannot be null");
 
-         expect(err.message).toContain("Topic.body cannot be null");
-         //expect(err.message).toContain("Topic.postId cannot be null");
          done();
 
        })
      });
-
+  
    });
 
   describe("#setPosts()", () => {
 
-     it("should associate a post to a topic", (done) => {
+     it("should associate a post and a topic together", (done) => {
 
-// #1
-       Post.create({
-         title: "Challenges of interstellar travel",
-         description: "1. The Wi-Fi is terrible"
+       Topic.create({
+         title: "Science",
+         description: "Biology, chemistry, physics"
        })
-       .then((newPost) => {
 
-// #2
-         expect(topic.postId).toBe(post.id);
-// #3
-         post.setTopic(newTopic)
-         .then((post) => {
-// #4
+       .then((newTopic) => {
+         
+         expect(newTopic.title).toBe("Science");
+         newTopic.setPosts(post);
+
+         .then((res) => {
+
            expect(post.topicId).toBe(newTopic.id);
            done();
 
          });
        })
+
      });
 
    });
 
   describe("#getPosts()", () => {
 
-     it("should return the associated posts", (done) => {
+     it("should return the associated topic", (done) => {
 
        topic.getPosts()
-       .then((associatedPosts) => {
-         expect(associatedPosts.title).toBe("Expeditions to Alpha Centauri");
+       .then((posts) => {
+         expect(posts[0].title).toBe("My first visit to Proxima Centauri b");
          done();
        });
 
