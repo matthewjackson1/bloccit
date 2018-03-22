@@ -10,6 +10,6 @@ const express = require("express");
   router.post("/topics/:id/destroy", topicController.destroy);
   router.get("/topics/:id/edit", topicController.edit);
   router.post("/topics/:id/update", topicController.update);
-  router.post("/topics/:topicId/posts/:id/destroy", postController.destroy);
+  router.post("/topics/:topicId/posts/:id/destroy", topicController.destroy);
 
   module.exports = router;

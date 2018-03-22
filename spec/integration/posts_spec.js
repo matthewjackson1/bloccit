@@ -44,7 +44,7 @@ describe("routes : posts", () => {
   describe("GET /topics/:topicId/posts/new", () => {
 
     it("should render a new post form", (done) => {
-      request.get(`${base}/${topic.id}/posts/new`, (err, res, body) => {
+      request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("New Post");
         done();
@@ -101,7 +101,7 @@ describe("routes : posts", () => {
      it("should delete the post with the associated ID", (done) => {
 
 //#1
-       expect(post.id).toBe(1);
+       expect(this.post.id).toBe(1);
 
        request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
 
@@ -135,7 +135,7 @@ describe("routes : posts", () => {
 
      it("should return a status code 302", (done) => {
        request.post({
-         url: `${base}/${topic.id}/posts/${post.id}/update`,
+         url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
          form: {
            title: "Snowman Building Competition",
            body: "I love watching them melt slowly."

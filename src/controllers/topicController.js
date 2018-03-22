@@ -15,22 +15,20 @@ module.exports = {
     new(req, res, next){
       res.render("topics/new");
     },
-
+    
     create(req, res, next){
-     let newPost= {
+     let newTopic = {
        title: req.body.title,
-       body: req.body.body,
-       topicId: req.params.topicId
+       description: req.body.description
      };
-     postQueries.addPost(newPost, (err, post) => {
+     topicQueries.addTopic(newTopic, (err, topic) => {
        if(err){
-         res.redirect(500, "/posts/new");
+         res.redirect(500, "/topics/new");
        } else {
-         res.redirect(303, `/topics/${newPost.topicId}/posts/${post.id}`);
+         res.redirect(303, `/topics/${topic.id}`);
        }
      });
    },
-    
 
    show(req, res, next){
 
