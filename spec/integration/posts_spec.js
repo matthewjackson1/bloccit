@@ -40,12 +40,12 @@ describe("routes : posts", () => {
   });
 
   describe("POST /topics/:topicId/posts/:id/update", () => {
-/*
+
      it("should return a status code 302", (done) => {
        request.post({
          url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
          form: {
-           title: "Snowcone",
+           title: "Snowman Building Competition",
            body: "I love watching them melt slowly."
          }
        }, (err, res, body) => {
@@ -53,26 +53,25 @@ describe("routes : posts", () => {
          done();
        });
      });
-     */
+     
      it("should update the post with the given values", (done) => {
          const options = {
            url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
            form: {
-             title: "Frozen"
+             title: "Snowman Building Competition",
+             body: "I love watching them melt slowly."
            }
          };
-         console.log(options);
          request.post(options,
            (err, res, body) => {
 
            expect(err).toBeNull();
-           //console.log("here");
+
            Post.findOne({
              where: {id: this.post.id}
            })
            .then((post) => {
-             console.log(this.post.title);
-             expect(this.post.title).toBe("Frozen");
+             expect(post.title).toBe("Snowman Building Competition");
              done();
            });
          });
