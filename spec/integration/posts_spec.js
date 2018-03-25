@@ -39,7 +39,47 @@ describe("routes : posts", () => {
 
   });
 
-//  describe("GET /topics/:topicId/posts", () => {/* suite implementation */});
+  describe("POST /topics/:topicId/posts/:id/update", () => {
+/*
+     it("should return a status code 302", (done) => {
+       request.post({
+         url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+         form: {
+           title: "Snowcone",
+           body: "I love watching them melt slowly."
+         }
+       }, (err, res, body) => {
+         expect(res.statusCode).toBe(302);
+         done();
+       });
+     });
+     */
+     it("should update the post with the given values", (done) => {
+         const options = {
+           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+           form: {
+             title: "Frozen"
+           }
+         };
+         console.log(options);
+         request.post(options,
+           (err, res, body) => {
+
+           expect(err).toBeNull();
+           //console.log("here");
+           Post.findOne({
+             where: {id: this.post.id}
+           })
+           .then((post) => {
+             console.log(this.post.title);
+             expect(this.post.title).toBe("Frozen");
+             done();
+           });
+         });
+     });
+    
+   });
+
 
   describe("GET /topics/:topicId/posts/new", () => {
 
@@ -159,44 +199,7 @@ describe("routes : posts", () => {
 
    });
 
-  describe("POST /topics/:topicId/posts/:id/update", () => {
-
-     it("should return a status code 302", (done) => {
-       request.post({
-         url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
-         form: {
-           title: "Snowman Building Competition",
-           body: "I love watching them melt slowly."
-         }
-       }, (err, res, body) => {
-         expect(res.statusCode).toBe(302);
-         done();
-       });
-     });
-     
-     it("should update the post with the given values", (done) => {
-         const options = {
-           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
-           form: {
-             title: "Snowman Building Competition"
-           }
-         };
-         request.post(options,
-           (err, res, body) => {
-
-           expect(err).toBeNull();
-
-           Post.findOne({
-             where: {id: this.post.id}
-           })
-           .then((post) => {
-             expect(post.title).toBe("Snowman Building Competition");
-             done();
-           });
-         });
-     });
   
-   });
 
 
 });

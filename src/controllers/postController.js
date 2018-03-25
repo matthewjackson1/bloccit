@@ -56,9 +56,11 @@ module.exports = {
    update(req, res, next){
      postQueries.updatePost(req.params.id, req.body, (err, post) => {
        if(err || post == null){
+          console.log("POST 404");
          res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
        } else {
-         res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
+          console.log("POST SUCCESS");
+          res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
        }
      });
    }

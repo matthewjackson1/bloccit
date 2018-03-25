@@ -35,6 +35,7 @@ module.exports = {
    },
 
    updatePost(id, updatedPost, callback){
+
      return Post.findById(id)
      .then((post) => {
        if(!post){
