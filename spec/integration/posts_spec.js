@@ -105,7 +105,8 @@ describe("routes : posts", () => {
         url: `${base}/${this.topic.id}/posts/create`,
         form: {
           title: "Watching snow melt",
-          body: "Without a doubt my favoriting things to do besides watching paint dry!"
+          body: "Without a doubt my favoriting things to do besides watching paint dry!",
+          userId: this.user.id
         }
       };
       request.post(options,
