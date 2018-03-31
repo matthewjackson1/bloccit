@@ -188,7 +188,7 @@ describe("routes : posts", () => {
         let titleBeforeDelete = this.post.title;
         let bodyBeforeDelete = this.post.body;
         request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
- 
+          
  //#2
           Post.findById(1)
           .then((post) => {

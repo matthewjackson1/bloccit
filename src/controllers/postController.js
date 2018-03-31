@@ -37,7 +37,7 @@ module.exports = {
        if(err){
          res.redirect(500, "/posts/new");
        } else {
-         res.redirect(303, `/topics/${newPost.topicId}/posts/${newPost.id}`);
+         res.redirect(303, `/topics/${newPost.topicId}/posts/${post.id}`);
        }
      });
     } else {
@@ -61,9 +61,9 @@ module.exports = {
    destroy(req, res, next){
      postQueries.deletePost(req, (err, something) => {
        if(err){
-         res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
+         res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`);
        } else {
-         res.redirect(303, `/topics/${req.params.topicId}`)
+         res.redirect(303, `/topics/${req.params.topicId}`);
        }
      });
    },
