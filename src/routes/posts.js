@@ -13,6 +13,6 @@ router.post("/topics/:topicId/posts/create",
 router.get("/topics/:topicId/posts/:id", postController.show);
 router.get("/topics/:topicId/posts/:id/edit", postController.edit);
 router.post("/topics/:topicId/posts/:id/update", validation.validatePosts, postController.update);
-
+router.post("/topics/:topicId/posts/:id/destroy", postController.destroy);
 
 module.exports = router;
