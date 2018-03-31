@@ -1,14 +1,33 @@
 const postQueries = require("../db/queries.posts.js");
+const Authorizer = require("../policies/application");
 
 module.exports = {
 
 
    new(req, res, next){
+    const authorized = new Authorizer(req.user).new();
+    let reqPost= {
+      title: req.body.title,
+      body: req.body.body,
+      topicId: req.params.topicId,
+      userId: req.user.id
+    };
+    if(authorized) {
      res.render("posts/new", {topicId: req.params.topicId});
+    }
+    else {
+      req.flash("notice", "You are not authorized to do that.");
+      //the below may be wrong.
+      res.redirect(`/topics/${reqPost.topicId}/posts`);
+    }
    },
 
    create(req, res, next){
-     let newPost= {
+    const authorized = new Authorizer(req.user).create();
+
+     if(authorized) { 
+    
+    let newPost= {
        title: req.body.title,
        body: req.body.body,
        topicId: req.params.topicId,
@@ -18,9 +37,14 @@ module.exports = {
        if(err){
          res.redirect(500, "/posts/new");
        } else {
-         res.redirect(303, `/topics/${newPost.topicId}/posts/${post.id}`);
+         res.redirect(303, `/topics/${newPost.topicId}/posts/${newPost.id}`);
        }
      });
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      //the below may be wrong
+      res.redirect(`/topics/${newPost.topicId}/posts`);
+    }
    },
 
 
@@ -35,7 +59,7 @@ module.exports = {
    },
 
    destroy(req, res, next){
-     postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
+     postQueries.deletePost(req, (err, something) => {
        if(err){
          res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
        } else {
@@ -46,18 +70,27 @@ module.exports = {
 
    edit(req, res, next){
      postQueries.getPost(req.params.id, (err, post) => {
+      
        if(err || post == null){
          res.redirect(404, "/");
        } else {
-         res.render("posts/edit", {post});
-       }
-     });
+        
+        const authorized = new Authorizer(req.user, post).edit();
+        
+        if(authorized){
+          res.render("posts/edit", {post});
+        } else {
+          req.flash("You are not authorized to do that.")
+          //the below is probably wrong
+          res.redirect(`/topics/${req.params.id}`)
+        }
+      }
+    });
    },
 
    update(req, res, next){
-     postQueries.updatePost(req.params.id, req.body, (err, post) => {
+     postQueries.updatePost(req, req.body, (err, post) => {
        if(err || post == null){
-          console.log("POST 404");
          res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
        } else {
           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
