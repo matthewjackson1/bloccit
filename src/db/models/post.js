@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
        onDelete: "CASCADE"
      });
     Post.hasMany(models.Flair, {
-       foreignKey: "flairId",
+       foreignKey: "postId",
        as: "flairs"
      });
   };

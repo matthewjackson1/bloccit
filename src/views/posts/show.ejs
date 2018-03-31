@@ -19,13 +19,13 @@
        <h1>Flairs</h1>
 
        <ul class="list-group">
-         <% posts.flairs.forEach((flair) => { %>
+         <% post.flairs.forEach((flair) => { %>
            <li class="list-group-item">
-             <a href="/posts/<%= post.id %>/flairs/<%= flair.id %>"> <%= flair.title %> </a>
+             <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/<%= flair.id %>"> <%= flair.name %> </a>
            </li>
          <% }) %>
        </ul>
-       <a href="/topics/<%= topic.id %>/posts/<%= post.id %>/flairs/new" class="btn btn-success">New Flair</a>
+       <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/new" class="btn btn-success">New Flair</a>
     </main>
 
     

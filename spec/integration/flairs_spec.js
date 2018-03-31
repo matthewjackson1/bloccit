@@ -26,7 +26,8 @@ describe("routes : flairs", () => {
 
         Post.create({
           title: "Winter Games",
-          body: "Post your Winter Games stories."
+          body: "Post your Winter Games stories.",
+          topicId: this.topic.id
         })
           .then((post) => {
             this.post = post;
@@ -52,7 +53,7 @@ describe("routes : flairs", () => {
   describe("GET /topics/:topicId/posts/:postId/flairs/new", () => {
 
     it("should render a new flair form", (done) => {
-      request.get(`${base}/${topic.id}/posts/${post.id}/flairs/new`, (err, res, body) => {
+      request.get(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/new`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("New Flair");
         done();
@@ -96,7 +97,7 @@ describe("routes : flairs", () => {
 
      it("should render a view with the selected flair", (done) => {
        request.get(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}`, (err, res, body) => {
-         expect(err).toBeNull();
+        expect(err).toBeNull();
          expect(body).toContain("Snow");
          done();
        });
@@ -110,7 +111,7 @@ describe("routes : flairs", () => {
      it("should delete the flair with the associated ID", (done) => {
 
 //#1
-       expect(flair.id).toBe(1);
+       expect(this.flair.id).toBe(1);
 
        request.post(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/destroy`, (err, res, body) => {
 
@@ -118,7 +119,7 @@ describe("routes : flairs", () => {
          Flair.findById(1)
          .then((flair) => {
            expect(err).toBeNull();
-           expect(fliar).toBeNull();
+           expect(flair).toBeNull();
            done();
          })
        });
@@ -131,7 +132,7 @@ describe("routes : flairs", () => {
   describe("GET /topics/:topicId/posts/:postId/flairs/:id/edit", () => {
 
      it("should render a view with an edit post form", (done) => {
-       request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
+       request.get(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
          expect(body).toContain("Edit Flair");
          expect(body).toContain("Snow");
@@ -145,7 +146,7 @@ describe("routes : flairs", () => {
 
      it("should return a status code 302", (done) => {
        request.post({
-         url: `${base}/${topic.id}/posts/${post.id}/flairs/${flair.id}/update`,
+         url: `${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/update`,
          form: {
            name: "Bananas",
            color: "yellow"

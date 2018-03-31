@@ -2,30 +2,32 @@ const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
 	new(req, res, next){
-     res.render("flairs/new", {postId: req.params.postId});
+     res.render("flairs/new", {postId: req.params.postId, topicId: req.params.topicId});
    },
 
    create(req, res, next){
      let newFlair= {
-       title: req.body.name,
-       body: req.body.color,
-       topicId: req.params.postId
+       name: req.body.name,
+       color: req.body.color,
+       postId: req.params.postId
      };
-     flairQueries.addFlair(newFlair, (err, post) => {
+     flairQueries.addFlair(newFlair, (err, flair) => {
        if(err){
          res.redirect(500, "/flairs/new");
        } else {
-         res.redirect(303, `/posts/${newFlair.postId}/flairs/${flair.id}`);
+         res.redirect(303, `/topics/${req.params.topicId}/posts/${newFlair.postId}/flairs/${flair.id}`);
        }
      });
    },
 
    show(req, res, next){
-     flairQueries.getFlair(req.params.id, (err, post) => {
-       if(err || post == null){
+     
+     flairQueries.getFlair(req.params.id, (err, flair) => {
+       
+       if(err || flair == null){
          res.redirect(404, "/");
        } else {
-         res.render("flairs/show", {flair});
+         res.render("flairs/show", {flair, topicId: req.params.topicId});
        }
      });
    },
@@ -41,18 +43,18 @@ module.exports = {
    },
 
    edit(req, res, next){
-     flairQueries.getFlair(req.params.id, (err, post) => {
-       if(err || post == null){
+     flairQueries.getFlair(req.params.id, (err, flair) => {
+       if(err || flair == null){
          res.redirect(404, "/");
        } else {
-         res.render("flairs/edit", {flair});
+         res.render("flairs/edit", {flair, topicId: req.params.topicId});
        }
      });
    },
 
    update(req, res, next){
-     flairQueries.updateFlair(req.params.id, req.body, (err, post) => {
-       if(err || post == null){
+     flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
+       if(err || flair == null){
          res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.postId}/flairs/${req.params.id}/edit`);
        } else {
          res.redirect(`/topics/${req.params.topicId}/posts/${req.params.postId}/flairs/${req.params.id}`);
