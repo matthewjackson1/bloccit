@@ -15,6 +15,24 @@
      </form>
 
       <p><%= post.body %></p>
+      <section id="comment-form">
+
+        <!-- #1 -->
+           <% if(currentUser) { %>
+             <% include ../comments/new.ejs %>
+           <% } %>
+          </section>
+       
+        <!-- #2 -->
+          <section id="comment-list">
+           <% if(post.comments) { %>
+             <% post.comments.forEach((comment) => { %>
+       
+        <!-- #3 -->
+               <%- include("../comments/show.ejs", {comment}) %>
+             <% }) %>
+           <% } %>
+           touch src/views/comments/show.ejs</section>
     </main>
 
     
