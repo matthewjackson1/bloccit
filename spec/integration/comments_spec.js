@@ -152,6 +152,84 @@ describe("routes : comments", () => {
       done();
     });
 
+    /// ASSIGNMENT TEST 1 ///
+    describe("deleting another user's comment", () => {
+        
+        it("should not be possible", (done) => {
+            let testComment;
+            User.create({
+                email: "starman@tesla.com",
+                password: "Trekkie4lyfe"
+              })
+              .then((user) => {
+                  Comment.create({  
+                    body: "A new user comment",
+                    userId: user.id,          
+                    postId: this.post.id
+                  })
+                  .then((comment) => {
+                    request.post(
+                        `${base}${this.topic.id}/posts/${this.post.id}/comments/${comment.id}/destroy`,
+                        (err, res, body) => {
+                            Comment.findOne({where: {body: "A new user comment"}})
+                            .then((comment) => {
+                            expect(comment).not.toBeNull();
+                            expect(comment.body).toBe("A new user comment");
+                            expect(comment.id).not.toBeNull();
+                            done();
+                            })
+                            .catch((err) => {
+                            console.log(err);
+                            done();
+                            })
+                        })                
+                    })
+                })  
+            })   
+           
+        });
+
+     /// ASSIGNMENT TEST 1 ///
+    describe("deleting another user's comment", () => {
+        
+        it("should not be possible", (done) => {
+            let testComment;
+            User.create({
+                email: "elon@tesla.com",
+                password: "Trekkie4lyfe"
+              })
+              .then((user) => {
+                  Comment.create({  
+                    body: "A new user comment",
+                    userId: user.id,          
+                    postId: this.post.id
+                  })
+                  .then((comment) => {
+                    request.post(
+                        `${base}${this.topic.id}/posts/${this.post.id}/comments/${comment.id}/destroy`,
+                        (err, res, body) => {
+                            Comment.findOne({where: {body: "A new user comment"}})
+                            .then((comment) => {
+                            expect(comment).not.toBeNull();
+                            expect(comment.body).toBe("A new user comment");
+                            expect(comment.id).not.toBeNull();
+                            done();
+                            })
+                            .catch((err) => {
+                            console.log(err);
+                            done();
+                            })
+                        })                
+                    })
+                })  
+            })   
+           
+        });
+        
+
+    
+
+
 // #2
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
 
@@ -209,4 +287,59 @@ describe("routes : comments", () => {
     });
 
   }); //end context for signed in user
+
+ //start of context for admin user
+  describe("admin user performing CRUD actions for Comment", () => {
+
+    beforeEach((done) => {    // before each suite in this context
+      request.get({           // mock authentication
+        url: "http://localhost:3000/auth/fake",
+        form: {
+          role: "admin",     // mock authenticate as member user
+          userId: this.user.id
+        }
+      });
+      done();
+    });
+
+    /// ASSIGNMENT TEST 2 ///
+    describe("deleting another user's comment", () => {
+        
+        it("should be possible", (done) => {
+            let testComment;
+            User.create({
+                email: "jerry@tom.com",
+                password: "Trekkie4lyfe"
+              })
+              .then((user) => {
+                  Comment.create({  
+                    body: "A new user comment",
+                    userId: user.id,          
+                    postId: this.post.id
+                  })
+                  .then((comment) => {
+                    request.post(
+                        `${base}${this.topic.id}/posts/${this.post.id}/comments/${comment.id}/destroy`,
+                        (err, res, body) => {
+                            Comment.findOne({where: {body: "A new user comment"}})
+                            .then((comment) => {
+                            expect(comment).toBeNull();
+                            done();
+                            })
+                            .catch((err) => {
+                            console.log(err);
+                            done();
+                            })
+                        })                
+                    })
+                })  
+            })   
+           
+        });
+
+    });
+    //end of context for admin user
+
+
+
 });
