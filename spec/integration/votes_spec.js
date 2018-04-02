@@ -141,7 +141,7 @@ describe("routes : votes", () => {
         );
       });
     });
-
+ 
     describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
 
       it("should create a downvote", (done) => {

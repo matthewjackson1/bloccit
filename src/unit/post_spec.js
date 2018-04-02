@@ -2,6 +2,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote;
 
 describe("Post", () => {
 
@@ -12,6 +13,7 @@ describe("Post", () => {
      this.topic;
      this.post;
      this.user;
+     this.vote;
 
      sequelize.sync({force: true}).then((res) => {
 
@@ -182,6 +184,71 @@ describe("Post", () => {
      });
 
    });
-   
+
+
+   describe("#getPoints()", () => {
+
+    it("should return the total number of vote points", (done) => {
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+      .then((vote) => {
+          this.post.getPoints()
+          .then((points) => {
+            console.log("POINTS", points);
+            expect(points).toBe(null);
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done();
+          })
+    })
+    .catch((err) => {
+      console.log(err);
+      done();
+    });
+
+    });
+
+  });
+
+    describe("#hasUpvoteFor()",() => {
+
+      it("should return true if there is an upvote on a post by a specific user", (done) => {
+        this.post.hasUpvoteFor(this.user.id)
+        .then((hasUpvotes) => {
+          expect(hasUpvotes).toBe(true);
+          console.log("done!!")
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        })
+      })
+
+    });
+
+
+    describe("#hasDownvoteFor()",() => {
+
+      it("should return true if there is a downvote on a post by a specific user", (done) => {
+        this.post.hasDownvoteFor(this.user.id)
+        .then((hasDownvotes) => {
+          expect(hasDownvotes.toBe(true));
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        })
+      })
+
+    })
 
 });
+   
+

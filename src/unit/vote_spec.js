@@ -135,8 +135,61 @@ describe("Vote", () => {
  
           })
         });
+
+        it("should not create an upvote with a value other than 1", (done) => {
+          Vote.create({
+            value: 2,
+            postId: this.post.id,
+            userId: this.user.id
+          })
+          .then((vote) => {
+            expect(vote).toBeNull();
+            done();
+          })
+          .catch((err) => {
+            //console.log(err);
+            done();
+          });
+          
+        });
+
+        it("should not create multiple upvotes per user", (done) => {
+          Vote.create({
+            value: 1,
+            postId: this.post.id,
+            userId: this.user.id
+          })
+          .then((vote) => {
+            expect(vote).not.toBeNull();
+            Vote.create({
+              value: 1,
+              postId: this.post.id,
+              userId: this.user.id
+            })
+            .then((secondVote) => {
+              Vote.findAll({
+                where: {
+                  postId: this.post.id,
+                  userId: this.user.id
+                }
+              })
+              .then((votes) => {
+              expect(votes.length).toBe(1);
+              done();
+              })
+            })
+            .catch((err) => {
+              //console.log(err);
+              done();
+            })
+          })
+          .catch((err) => {
+            //console.log(err);
+            done();
+          });
  
       });
+    });
 
       // #1
       describe("#setUser()", () => {
