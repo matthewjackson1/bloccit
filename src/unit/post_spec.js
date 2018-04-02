@@ -195,6 +195,11 @@ describe("Post", () => {
         userId: this.user.id
       })
       .then((vote) => {
+          this.post.getVotes()
+            .then((votes)=> {
+              console.log(votes);
+               done();
+            });
           this.post.getPoints()
           .then((points) => {
             console.log("POINTS", points);
