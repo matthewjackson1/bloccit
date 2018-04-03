@@ -84,6 +84,7 @@ describe("routes : votes", () => {
               })
               .then((vote) => {
                 expect(vote).toBeNull();
+                expect(this.post.getPoints()).toBeNull();
                 done();
               })
               .catch((err) => {
@@ -131,6 +132,7 @@ describe("routes : votes", () => {
               expect(vote.value).toBe(1);
               expect(vote.userId).toBe(this.user.id);
               expect(vote.postId).toBe(this.post.id);
+              expect(this.post.getPoints()).toBe(1);
               done();
             })
             .catch((err) => {
@@ -140,6 +142,8 @@ describe("routes : votes", () => {
           }
         );
       });
+
+
     });
  
     describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {

@@ -194,16 +194,11 @@ describe("Post", () => {
         postId: this.post.id,
         userId: this.user.id
       })
-      .then((vote) => {
-          this.post.getVotes()
-            .then((votes)=> {
-              console.log(votes);
-               done();
-            });
+      .then((vote) => {            
           this.post.getPoints()
           .then((points) => {
             console.log("POINTS", points);
-            expect(points).toBe(null);
+            expect(points).toBe(1);
             done();
           })
           .catch((err) => {

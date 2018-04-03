@@ -45,18 +45,28 @@ module.exports = (sequelize, DataTypes) => {
   Post.prototype.getPoints = function(){
       console.log(this.votes); //always returns undefined
     // #1
-    if(this.votes && this.votes.length === 0) return 0; //causes an error
+    if(this.votes.length === 0) return 0; //causes an error
    
     // #2
-        return this.votes
+    return this.votes
           .map((v) => { return v.value })
           .reduce((prev, next) => { return prev + next });
       };
 
   Post.prototype.hasUpvoteFor = function(user){
-    console.log(this.votes);
-    //return this.votes
-     //   .some((vote) => {vote.userId == user});
+    return this.votes
+        .some((vote) => {
+          vote.userId == user,
+          vote.value == 1
+        });
+  };
+
+  Post.prototype.hasDownvoteFor = function(user){
+    return this.votes
+        .some((vote) => {
+          vote.userId == user,
+          vote.value == -1
+        });
   };
 
   return Post;
