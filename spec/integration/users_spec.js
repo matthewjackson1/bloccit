@@ -6,6 +6,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const Comment = require("../../src/db/models").Comment;
+const Favorite = require("../../src/db/models").Favorite;
 
 describe("routes : users", () => {
 
@@ -109,8 +110,11 @@ describe("routes : users", () => {
     beforeEach((done) => {
 // #3
       this.user;
+      this.user2;
       this.post;
+      this.post2;
       this.comment;
+      this.topic;
 
       User.create({
         email: "starman@tesla.com",
@@ -135,7 +139,7 @@ describe("routes : users", () => {
         })
         .then((res) => {
           this.post = res.posts[0];
-
+          
           Comment.create({
             body: "This comment is alright.",
             postId: this.post.id,
@@ -144,25 +148,52 @@ describe("routes : users", () => {
           .then((res) => {
             console.log(5);
             this.comment = res;
-            done();
+            User.create({
+              email: "elon@tesla.com",
+              password: "Trekkie4lyfe"
+            })
+            .then((user2) => {
+              this.user2 = user2;
+      
+              Post.create({
+                title: "Dumbo the Elephant",
+                body: "Everything you ever wanted to know about the Disney Character",
+                topicId: 1,
+                userId: this.user2.id
+       
+              })
+              .then((post2) => {        
+                Favorite.create({
+                    postId: post2.id,
+                    userId: 1
+                  }).then((fav) => {
+                    console.log("fav created");
+                    done();
+                  })
+                })
+              })
           })
         })
       })
+     });
 
-    });
+    
 
 // #4
-    it("should present a list of comments and posts a user has created", (done) => {
+    it("should present a list of comments and posts a user has created, as well as the articles they've favourited", (done) => {
 
       request.get(`${base}${this.user.id}`, (err, res, body) => {
 
 // #5
         expect(body).toContain("Snowball Fighting");
-        expect(body).toContain("This comment is alright.")
+        expect(body).toContain("This comment is alright.");
+        expect(body).toContain("Dumbo the Elephant");
         done();
       });
 
     });
+
+
   });
 
 });
