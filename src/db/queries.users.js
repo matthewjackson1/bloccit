@@ -40,19 +40,20 @@ module.exports = {
     // #4
            Post.scope({method: ["lastFiveFor", id]}).all()
            .then((posts) => {
-    // #5
+
              result["posts"] = posts;
     // #6
              Comment.scope({method: ["lastFiveFor", id]}).all()
              .then((comments) => {
-    // #7
+
                result["comments"] = comments;
-               
+
                Favorite.scope({method: ["favoritePosts", id]}).all()
-               .then((favourites) => {
+               .then((favorites) => {
                   result["favorites"] = favorites;
+                  console.log(favorites);
                   callback(null, result);
-                  done();
+
                 })
              .catch((err) => {
                callback(err);
