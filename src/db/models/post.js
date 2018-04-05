@@ -43,31 +43,43 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Post.prototype.getPoints = function(){
-      console.log(this.votes); //always returns undefined
     // #1
-    if(this.votes.length === 0) return 0; //causes an error
-   
-    // #2
+    if(this.votes && this.votes.length === 0) return 0
+
     return this.votes
-          .map((v) => { return v.value })
-          .reduce((prev, next) => { return prev + next });
+        .map((v) => { return v.value })
+        .reduce((prev, next) => { return prev + next });
       };
 
-  Post.prototype.hasUpvoteFor = function(user){
-    return this.votes
-        .some((vote) => {
-          vote.userId == user,
-          vote.value == 1
-        });
-  };
+      Post.prototype.hasUpvoteFor = function(userId, callback){
 
-  Post.prototype.hasDownvoteFor = function(user){
-    return this.votes
-        .some((vote) => {
-          vote.userId == user,
-          vote.value == -1
+        return this.getVotes({
+          where: {
+            userId: userId,
+            postId: this.id,
+            value: 1
+          }
+        })
+        .then((votes) => {
+          votes.length != 0 ? callback(true) : callback(false);
         });
-  };
+    
+      }
+    
+      Post.prototype.hasDownvoteFor = function(userId, callback){
+    
+        return this.getVotes({
+          where: {
+            userId: userId,
+            postId: this.id,
+            value: -1
+          }
+        })
+        .then((votes) => {
+          votes.length != 0 ? callback(true) : callback(false);
+        });
+    
+      }
 
   return Post;
 };

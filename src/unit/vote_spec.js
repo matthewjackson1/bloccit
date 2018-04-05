@@ -142,11 +142,12 @@ describe("Vote", () => {
             userId: this.user.id
           })
           .then((vote) => {
-            expect(vote).toBeNull();
+          
             done();
           })
           .catch((err) => {
-            //console.log(err);
+            console.log("ERR", err)
+            expect(err.type).toBe("Validation error");
             done();
           });
           

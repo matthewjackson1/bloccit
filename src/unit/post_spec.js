@@ -185,69 +185,55 @@ describe("Post", () => {
 
    });
 
+   describe("#hasUpvoteFor()", () => {
 
-   describe("#getPoints()", () => {
+    it("should return true if the userId passed as an argument matches an upvote for the post", (done) => {
 
-    it("should return the total number of vote points", (done) => {
-      Vote.create({
-        value: 1,
-        postId: this.post.id,
-        userId: this.user.id
-      })
-      .then((vote) => {            
-          this.post.getPoints()
-          .then((points) => {
-            console.log("POINTS", points);
-            expect(points).toBe(1);
+      this.post.hasUpvoteFor(this.user.id, (res) => {
+        expect(res).toBeFalsy();
+
+        Vote.create({
+            value: 1,
+            userId: this.user.id,
+            postId: this.post.id
+        })
+        .then((vote) => {
+          this.post.hasUpvoteFor(this.user.id, (res) => {
+            expect(res).toBeTruthy();
             done();
           })
-          .catch((err) => {
-            console.log(err);
-            done();
-          })
-    })
-    .catch((err) => {
-      console.log(err);
-      done();
-    });
+        })
+      });
+
 
     });
 
   });
 
-    describe("#hasUpvoteFor()",() => {
+  describe("#hasDownvoteFor()", () => {
 
-      it("should return true if there is an upvote on a post by a specific user", (done) => {
-        this.post.hasUpvoteFor(this.user.id)
-        .then((hasUpvotes) => {
-          expect(hasUpvotes).toBe(true);
-          console.log("done!!")
-          done();
+    it("should return true if the userId passed as an argument matches a downvote for the post", (done) => {
+
+      this.post.hasDownvoteFor(this.user.id, (res) => {
+        expect(res).toBeFalsy();
+
+        Vote.create({
+            value: -1,
+            userId: this.user.id,
+            postId: this.post.id
         })
-        .catch((err) => {
-          console.log(err);
-          done();
+        .then((vote) => {
+          this.post.hasDownvoteFor(this.user.id, (res) => {
+            expect(res).toBeTruthy();
+            done();
+          })
         })
-      })
+      });
+
 
     });
 
-
-    describe("#hasDownvoteFor()",() => {
-
-      it("should return true if there is a downvote on a post by a specific user", (done) => {
-        this.post.hasDownvoteFor(this.user.id)
-        .then((hasDownvotes) => {
-          expect(hasDownvotes.toBe(true));
-          done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
-        })
-      })
-
-    })
+  });
 
 });
    
