@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       favoritesFor(userId) {
         return {
           include: [{
-            model: Favorite, where: { userId: userId }
-          }]
+            model: Favorite}],
+          where: { userId: userId }
         };
       }
     }

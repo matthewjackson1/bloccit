@@ -45,17 +45,19 @@ module.exports = {
     // #6
              Comment.scope({method: ["lastFiveFor", id]}).all()
              .then((comments) => {
+               //console.log("COMMENTS", comments);
     // #7
                result["comments"] = comments;
-
+              
                User.scope({method: ["favoritesFor", id]}).all()
                .then((favorites) => {
                   
                   result["favorites"] = favorites;
-                  //console.log(favorites);
+                  //console.log("FAVORITES", favorites);
                   callback(null, result);
-               }).
-               catch((err) => {
+                  
+               })
+               .catch((err) => {
                  callback(err);
                })
               })
