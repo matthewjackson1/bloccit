@@ -17,7 +17,18 @@ module.exports = (sequelize, DataTypes) => {
      allowNull: false,
      defaultValue: "member"
    }
-  }, {});
+  },
+  {
+    scopes: {
+      favoritesFor(userId) {
+        return {
+          include: [{
+            model: Favorite, where: { userId: userId }
+          }]
+        };
+      }
+    }
+  });
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Post, {
@@ -41,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.isAdmin = function() {
      return this.role === "admin";
   };
+
 
   return User;
 };
