@@ -155,10 +155,10 @@ describe("routes : users", () => {
     it("should present a list of comments and posts a user has created", (done) => {
 
       request.get(`${base}${this.user.id}`, (err, res, body) => {
-
+        console.log("KANGAROO", body);
 // #5
         expect(body).toContain("Snowball Fighting");
-        expect(body).toContain("This comment is alright.")
+        expect(body).toContain("This comment is alright.");
         done();
       });
 

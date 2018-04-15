@@ -49,11 +49,13 @@ module.exports = {
     // #7
                result["comments"] = comments;
               
-               User.scope({method: ["favoritesFor", id]}).all()
+               Favorite.scope({method: ["lastFiveFor", id]}).all()
                .then((favorites) => {
                   
                   result["favorites"] = favorites;
-                  //console.log("FAVORITES", favorites);
+                  console.log("FAVORITES");
+                  favorites.forEach((x) => console.log(x,"END OF X"));
+                  console.log("END FAVES");
                   callback(null, result);
                   
                })
