@@ -53,9 +53,9 @@ module.exports = {
                .then((favorites) => {
                   
                   result["favorites"] = favorites;
-                  console.log("FAVORITES");
-                  favorites.forEach((x) => console.log(x,"END OF X"));
-                  console.log("END FAVES");
+                  //console.log("FAVORITES");
+                  //favorites.forEach((x) => console.log(x,"END OF X"));
+                  //console.log("END FAVES");
                   callback(null, result);
                   
                })

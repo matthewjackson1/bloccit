@@ -61,13 +61,9 @@
  <!-- #4 -->
         <% if(favorites) { %>
           <% favorites.forEach((favorite) => { %>
-            <span>Post: </span><a href="/topics/<%= favorite.postId %>/posts/<%= favorite.postId %>"></a>
- <!-- #5 -->
-            <li>
-              
-                <%= favorite.postId %>
-              </a>
-            </li>
+            <span>Post: </span><a href="/topics/<%= favorite.Post.topicId %>/posts/<%= favorite.postId %>">
+              <%= favorite.Post.title %>
+            </a>
             <hr>
           <% }) %>
         <% } %>

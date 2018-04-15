@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       // #1
       return {
             include: [{
-              model: models.User
+              model: models.Post
             }],
             where: { userId: userId },
      
