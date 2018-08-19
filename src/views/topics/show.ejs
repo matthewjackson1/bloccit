@@ -8,29 +8,37 @@
 
     <main class="container">
       <% include ../static/partials/messages.ejs %>
-      <h1><%= topic.title %></h1>
-         <% if(currentUser) { %>
-           <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
-           <% if(currentUser.isAdmin()) { %>
-             <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
-             <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
-              <button type="submit" class="btn btn-danger">Delete</button>
-             </form>
-           <% } %>
-         <% } %>
-        
-      <p><%= topic.description %></p>
-      <hr>
 
-     <h1>Posts</h1>
-
-     <ul class="list-group">
-       <% topic.posts.forEach((post) => { %>
-         <li class="list-group-item">
-           <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"> <%= post.title %> </a>
-         </li>
-       <% }) %>
-     </ul>
+      <div class="grid">
+          <div class="row">
+            <div class="column">
+                <h1><%= topic.title %></h1>
+            </div>            
+            <% if(currentUser) { %>
+              <div class="column mr-auto">
+                <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-primary">+ Add Post</a>
+              </div>
+              <div class="column ml-auto">
+                <% if(currentUser.isAdmin()) { %>
+                  <a href="/topics/<%= topic.id %>/edit" class="btn btn-secondary">Edit topic</a>
+                  <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
+                    <button type="submit" class="btn btn-secondary">Delete topic</button>
+                  </form>
+                <% } %>
+              </div>
+            <% } %>
+          </div>
+          <div class="row topic-desc">
+                <%= topic.description %>
+          </div>
+          <div class="row post-list">
+            <% topic.posts.forEach((post) => { %>
+              <div class="post-card">
+                <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"> <%= post.title %> </a>
+              </div>
+            <% }) %>
+          </div>
+      </div>
 
     </main>
 

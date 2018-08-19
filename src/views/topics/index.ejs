@@ -7,20 +7,44 @@
     <main class="container">
       <% include ../static/partials/navbar.ejs %>
 
-      <h1>Topics</h1>
-      <% if(currentUser && currentUser.isAdmin()) { %>
-        <a href="/topics/new" class="btn btn-success">New Topic</a>
-      <% } %>
+      <main class="container">
+          <div class="grid">
+              <div class="row">
+                <div class="column">
+                  <h1>Topics</h1>
+                </div>            
+                <% if(currentUser && currentUser.isAdmin()) { %>
+                  <div class="column ml-auto">
+                    <a href="/topics/new" class="btn btn-secondary">New Topic</a>
+                  </div>
+                <% } %>
+              </div>
+              <div class="row">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Summit topic</th>
+                      <th scope="col">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% topics.forEach((topic) => { %>
+                         <tr>
+                          <th scope="row">
+                              <a href="/topics/<%= topic.id %>" class="topic-list-link">s/<%= topic.title %> </a>
+                          </th>
+                          <td>
+                              <span class="topic-list-desc"><%= topic.description %></span>
+                          </td>
+                        </tr>    
+                      <% }) %>              
+                  </tbody>
+                </table>
+              </div>
 
-      <ul class="list-group">
-<!-- #1 -->
-        <% topics.forEach((topic) => { %>
-<!-- #2 -->
-          <li class="list-group-item">
-            <a href="/topics/<%= topic.id %>"> <%= topic.title %> </a>
-          </li>
-        <% }) %>
-      </ul>
+  
+
+    </div>
 
     </main>
   </body>
